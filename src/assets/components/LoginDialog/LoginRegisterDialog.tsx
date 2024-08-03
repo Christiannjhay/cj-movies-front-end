@@ -15,12 +15,12 @@ import { Label } from "@/components/ui/label";
 // Define the props type for the Register component
 interface RegisterProps {
   email: string;
-  setUsername: React.Dispatch<React.SetStateAction<string>>;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
   password: string;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function Register({ email, setUsername, password, setPassword }: RegisterProps) {
+function Register({ email, setEmail, password, setPassword }: RegisterProps) {
   const handleRegister = async () => {
     try {
       const response = await fetch("http://localhost:3000/api/register", {
@@ -57,7 +57,7 @@ function Register({ email, setUsername, password, setPassword }: RegisterProps) 
             type="text"
             className="bg-[#27272A] text-white rounded-2xl border-[#FF3131] focus:border-2"
             value={email}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="space-y-1">
@@ -86,8 +86,29 @@ function Register({ email, setUsername, password, setPassword }: RegisterProps) 
 }
 
 export function LoginDialog() {
-  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/login", { // Changed endpoint to /login
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        alert("Login successful!");
+      } else {
+        alert("Login failed: " + data.message);
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
 
   return (
     <Dialog>
@@ -116,8 +137,8 @@ export function LoginDialog() {
                   <Input
                     id="loginUsername"
                     className="bg-[#27272A] text-white rounded-2xl border-[#FF3131] focus:border-2"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="space-y-1">
@@ -134,7 +155,7 @@ export function LoginDialog() {
               <CardFooter>
                 <Button
                   className="bg-[#FF3131] text-white hover:bg-red-600 w-full rounded-2xl"
-                  onClick={() => alert('Login functionality not implemented yet')}
+                  onClick={handleLogin}
                 >
                   Login
                 </Button>
@@ -143,8 +164,8 @@ export function LoginDialog() {
           </TabsContent>
           <TabsContent value="password">
             <Register
-              email={username}
-              setUsername={setUsername}
+              email={email}
+              setEmail={setEmail}
               password={password}
               setPassword={setPassword}
             />
