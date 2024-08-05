@@ -1,3 +1,4 @@
+// Top9CardWeek.tsx
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import StarIcon3 from "@/icons/StarIcon3";
@@ -16,7 +17,7 @@ interface Movie {
   genres: { id: number; name: string }[];
 }
 
-export default function Top9Card() {
+export default function TopWeek() {
   const [movies, setMovies] = useState<Movie[]>([]);
 
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export default function Top9Card() {
   useEffect(() => {
     const fetchMovies = async () => {
       const url =
-        "https://api.themoviedb.org/3/trending/movie/day?language=en-US";
+        "https://api.themoviedb.org/3/trending/movie/week?language=en-US";
       const options = {
         method: "GET",
         headers: {
@@ -64,7 +65,7 @@ export default function Top9Card() {
           <div className="flex h-20 bg-[#0F0F0F] rounded-2xl overflow-hidden hover:bg-red-500 transition duration-300 ease-in-out group">
             <div className="absolute">
               <div>
-                <h1 className="absolute top-10 left-0 flex items-center justify-center w-8 h-8 bg-[#0F0F0F] rounded-full text-red-500 group-hover:bg-red-500 font-bold text-lg transform -translate-x-1/2 -translate-y-1/2 group-hover:text-black transition-colors duration-300">
+                <h1 className="absolute top-10 left-0 flex items-center justify-center w-8 h-8 bg-[#0F0F0F] rounded-full text-red-500 group-hover:bg-red-500 font-bold text-lg transform -translate-x-1/2 -translate-y-1/2 group-hover:text-black transition-colors duration-300 border-2 border-red-500">
                   {index + 1}
                 </h1>
               </div>
@@ -78,7 +79,7 @@ export default function Top9Card() {
                 />
               </div>
               <div className="col-span-10 p-4">
-                <h2 className="text-sm text-white font-semibold group-hover:text-black transition duration-300 ease-in-out">
+                <h2 className="text-sm text-red-500 font-semibold group-hover:text-white transition duration-300 ease-in-out">
                   {movie.title}
                 </h2>
                 <div className="flex flex-row">
