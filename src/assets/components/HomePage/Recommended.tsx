@@ -37,8 +37,8 @@ export default function Recommended() {
           </div>
           <div className="2xl:col-span-3 xl:col-span-4 lg:col-span-4 ">
             <div className="text-white text-2xl font-bold ml-10 flex">
-              <div className="h-7 w-5 bg-red-500 rounded-sm text-white mt-4">
-                <div className="mt-4 ml-[2px]">
+              <div className="h-7 w-6 bg-red-500 rounded-sm text-white mt-4">
+                <div className="mt-[5px] ml-[1px]">
                   <RecommendedIcon />
                   
                 </div>
