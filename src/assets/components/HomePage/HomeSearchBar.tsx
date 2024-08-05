@@ -20,7 +20,6 @@ function HomeSearchBar() {
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="flex w-3/4 lg:w-2/4">
         <FormField
-          
           control={control}
           name="searchTerm"
           render={({ field }) => (
@@ -30,7 +29,7 @@ function HomeSearchBar() {
                   type="text"
                   placeholder="Search movies..."
                   {...field}
-                  className="flex-grow rounded-l-2xl rounded-r-none p-4 bg-black opacity-50 hover:opacity-65 text-white"
+                  className="flex-grow rounded-l-2xl rounded-r-none p-4 bg-[#292929] text-white sm:text-center opacity-65"
                 />
               </FormControl>
             </FormItem>

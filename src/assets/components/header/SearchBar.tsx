@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 
-function SearchBar() {
+export default function SearchBar() {
   const navigate = useNavigate();
   const { handleSubmit, control, reset } = useForm();
 
@@ -20,7 +20,6 @@ function SearchBar() {
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="flex w-2/4">
         <FormField
-          
           control={control}
           name="searchTerm"
           render={({ field }) => (
@@ -30,7 +29,7 @@ function SearchBar() {
                   type="text"
                   placeholder="Search movies..."
                   {...field}
-                  className="flex-grow rounded-l-2xl rounded-r-none p-4 bg-[#292929] text-white"
+                  className="flex-grow rounded-l-2xl rounded-r-none p-4 bg-[#292929] text-white sm:text-center"
                 />
               </FormControl>
             </FormItem>
@@ -46,5 +45,3 @@ function SearchBar() {
     </Form>
   );
 }
-
-export default SearchBar;
