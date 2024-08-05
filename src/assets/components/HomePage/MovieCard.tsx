@@ -23,7 +23,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick }) => {
 
   return (
     <div className="relative rounded-lg overflow-hidden group" onClick={onClick}>
-      <div className="relative h-72 w-48 overflow-hidden">
+      <div className="relative h-72 w-auto overflow-hidden">
         <img
           src={imageUrl}
           alt={movie.title}
