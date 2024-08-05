@@ -86,7 +86,7 @@ export default function TrendingMoviesCard() {
     const fetchTopRatedMovies = async () => {
       try {
         const apiKey = import.meta.env.VITE_REACT_APP_MOVIE_API_TOKEN;
-        const url = `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=1`;
+        const url = `https://api.themoviedb.org/3/movie/popular?language=en-US&page=2`;
         const response = await fetch(url, {
           method: "GET",
           headers: {

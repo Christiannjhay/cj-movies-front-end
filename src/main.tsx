@@ -45,5 +45,3 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
    
   </React.StrictMode>
 );
-
-/*bg-[#181818] */

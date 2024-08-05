@@ -22,8 +22,8 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick }) => {
   };
 
   return (
-    <div className="relative rounded-lg overflow-hidden" onClick={onClick}>
-      <div className="relative h-80 overflow-hidden">
+    <div className="relative rounded-lg overflow-hidden group" onClick={onClick}>
+      <div className="relative h-72 w-48 overflow-hidden">
         <img
           src={imageUrl}
           alt={movie.title}
@@ -38,8 +38,8 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick }) => {
         </div>
       </div>
       <div className="p-1 flex items-start flex-col">
-        <h3 className="text-red-500 font-medium text-sm">{getYear(movie.release_date)}</h3>
-        <h2 className="text-white text-sm font-bold mb-2">{movie.title}</h2>
+        <h3 className="text-[#5e646b] font-normal text-sm">{getYear(movie.release_date)}</h3>
+        <h2 className="text-white text-sm font-bold mb-2 group-hover:text-red-500 transition duration-500 ease-in-out">{movie.title}</h2>
       </div>
     </div>
   );
