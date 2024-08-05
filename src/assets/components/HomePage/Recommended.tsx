@@ -35,14 +35,15 @@ export default function Recommended() {
           <div className="2xl:col-span-9 xl:col-span-8 lg:col-span-8">
             <RecommendedCard />
           </div>
-          <div className="2xl:col-span-3 xl:col-span-4 lg:col-span-4">
+          <div className="2xl:col-span-3 xl:col-span-4 lg:col-span-4 ">
             <div className="text-white text-2xl font-bold ml-10 flex">
-              <div className="h-7 w-5 bg-red-500 rounded-sm text-white items-center justify-center mt-4">
-                <div className="mt-[7px] ml-[2px]">
+              <div className="h-7 w-5 bg-red-500 rounded-sm text-white mt-4">
+                <div className="mt-4 ml-[2px]">
                   <RecommendedIcon />
+                  
                 </div>
               </div>
-              <div className="flex flex-col mr-20">
+              <div className="flex flex-col mr-10">
                 <div className="flex flex-row">
                   <h1 className="ml-1 mt-3 tracking-widest">TOP10</h1>
                   <div className="ml-10 mt-3">
