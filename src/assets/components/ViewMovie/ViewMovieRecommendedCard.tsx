@@ -18,11 +18,13 @@ interface Movie {
 
 export default function ViewMovieRecommendedCard() {
   const [recommendations, setRecommendations] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
     const fetchRecommendations = async () => {
       const apiKey = import.meta.env.VITE_REACT_APP_MOVIE_API_TOKEN;
 
@@ -41,9 +43,32 @@ export default function ViewMovieRecommendedCard() {
         }
 
         const recommendationsData = await recommendationsResponse.json();
-        setRecommendations(recommendationsData.results || []);
+
+       
+        const detailedRecommendations = await Promise.all(
+          recommendationsData.results.map(async (movie: { id: number }) => {
+            const movieDetailsUrl = `https://api.themoviedb.org/3/movie/${movie.id}?language=en-US`;
+            const movieDetailsResponse = await fetch(movieDetailsUrl, {
+              method: "GET",
+              headers: {
+                accept: "application/json",
+                Authorization: `Bearer ${apiKey}`,
+              },
+            });
+
+            if (!movieDetailsResponse.ok) {
+              throw new Error(`HTTP error! Status: ${movieDetailsResponse.status}`);
+            }
+
+            return movieDetailsResponse.json();
+          })
+        );
+
+        setRecommendations(detailedRecommendations);
       } catch (error) {
-        console.error("Error fetching recommendations:", error);
+        console.error("Error fetching recommendations or details:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -63,6 +88,10 @@ export default function ViewMovieRecommendedCard() {
   const getTopCountries = (countries: { name: string }[] = []) => {
     return countries.slice(0, 3).map((country) => country.name);
   };
+
+  if (loading) {
+    return <p className="text-center text-gray-500">Loading...</p>;
+  }
 
   return (
     <div className="p-4">
