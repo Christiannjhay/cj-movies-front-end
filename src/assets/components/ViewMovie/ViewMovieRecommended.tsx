@@ -1,13 +1,55 @@
 import RecommendedIcon from "@/icons/RecommendedIcon";
 import ViewMovieRecommendedCard from "./ViewMovieRecommendedCard";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TopDay from "../HomePage/TopDay";
 import TopWeek from "../HomePage/TopWeek";
+
+interface Movie {
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: string;
+  release_date: string;
+  runtime: number;
+  vote_average: number;
+  vote_count: number;
+  production_countries: { name: string }[];
+  genres: { id: number; name: string }[];
+}
 
 export default function ViewMovieRecommended() {
 
   const [selectedPeriod, setSelectedPeriod] = useState<string>("a");
+  const apiKey = import.meta.env.VITE_REACT_APP_MOVIE_API_TOKEN;
+  const [movies, setMovies] = useState<Movie[]>([]);
+  
+  useEffect(() => {
+    const fetchMovies = async () => {
+      const period = selectedPeriod === "a" ? "day" : "week";
+      const url = `https://api.themoviedb.org/3/trending/movie/${period}?language=en-US`;
+      const options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
+      };
+
+      try {
+        const response = await fetch(url, options);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        setMovies(data.results.slice(0, 10));
+      } catch (error) {
+        console.error("Error fetching movies:", error);
+      }
+    };
+
+    fetchMovies();
+  }, [selectedPeriod]);
 
   return (
     <div className="h-fit w-full bg-[#181818] ">
@@ -52,7 +94,11 @@ export default function ViewMovieRecommended() {
                   </div>
                 </div>
                 <div className="">
-                  {selectedPeriod === "a" ? <TopDay /> : <TopWeek />}
+                  {selectedPeriod === "a" ? (
+                    <TopDay movies={movies}/>
+                  ) : (
+                    <TopWeek movies={movies} />
+                  )}
                 </div>
               </div>
             </div>

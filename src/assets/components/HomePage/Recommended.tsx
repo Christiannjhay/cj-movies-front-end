@@ -20,7 +20,7 @@ interface Movie {
 
 export default function Recommended() {
   const [selectedPeriod, setSelectedPeriod] = useState<string>("a");
-  const [movies, setMovies] = useState<Movie[]>([]); // State to hold movies data
+  const [movies, setMovies] = useState<Movie[]>([]);
   const apiKey = import.meta.env.VITE_REACT_APP_MOVIE_API_TOKEN;
 
   useEffect(() => {

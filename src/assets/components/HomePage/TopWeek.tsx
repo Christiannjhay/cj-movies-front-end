@@ -19,7 +19,7 @@ interface TopWeekProps {
   movies: Movie[];
 }
 
-export default function TopWeek({ movies }: TopWeekProps) {
+export default function TopWeek({ movies = [] }: TopWeekProps) {
   const navigate = useNavigate();
 
   const handleCardClick = (id: number) => {

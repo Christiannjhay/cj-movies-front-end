@@ -19,7 +19,7 @@ interface TopDayProps {
   movies: Movie[];
 }
 
-export default function TopDay({ movies }: TopDayProps) {
+export default function TopDay({ movies = [] }: TopDayProps) {
   const navigate = useNavigate();
 
   const handleCardClick = (id: number) => {
