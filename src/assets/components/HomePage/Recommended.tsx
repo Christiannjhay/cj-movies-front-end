@@ -20,14 +20,11 @@ interface Movie {
 
 export default function Recommended() {
   const [selectedPeriod, setSelectedPeriod] = useState<string>("a");
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [movies, setMovies] = useState<Movie[]>([]); 
   const apiKey = import.meta.env.VITE_REACT_APP_MOVIE_API_TOKEN;
 
   useEffect(() => {
     const fetchMovies = async () => {
-      setLoading(true); // Start loading state
-
       const period = selectedPeriod === "a" ? "day" : "week";
       const url = `https://api.themoviedb.org/3/trending/movie/${period}?language=en-US`;
       const options = {
@@ -47,8 +44,6 @@ export default function Recommended() {
         setMovies(data.results.slice(0, 10));
       } catch (error) {
         console.error("Error fetching movies:", error);
-      } finally {
-        setLoading(false); // End loading state
       }
     };
 
@@ -80,11 +75,7 @@ export default function Recommended() {
       <div className="ml-5">
         <div className="flex flex-col lg:grid lg:grid-cols-12">
           <div className="2xl:col-span-9 xl:col-span-8 lg:col-span-8">
-            {loading ? (
-              <p className="text-center text-gray-500">Loading...</p>
-            ) : (
-              <RecommendedCard movies={movies} />
-            )}
+            <RecommendedCard />
           </div>
           <div className="2xl:col-span-3 xl:col-span-4 lg:col-span-4">
             <div className="text-white text-2xl font-bold ml-10 flex">
@@ -108,10 +99,8 @@ export default function Recommended() {
                   </div>
                 </div>
                 <div className="">
-                  {loading ? (
-                    <p className="text-center text-gray-500">Loading...</p>
-                  ) : selectedPeriod === "a" ? (
-                    <TopDay movies={movies} />
+                  {selectedPeriod === "a" ? (
+                    <TopDay movies={movies}/>
                   ) : (
                     <TopWeek movies={movies} />
                   )}
