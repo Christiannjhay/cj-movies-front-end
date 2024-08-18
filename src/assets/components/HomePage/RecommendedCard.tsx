@@ -16,35 +16,20 @@ interface Movie {
   genres: { id: number; name: string }[];
 }
 
-export default function RecommendedCard() {
-  const [, setMovies] = useState<Movie[]>([]);
+interface RecommendedCardProps {
+  movies: Movie[];
+}
+
+export default function RecommendedCard({ movies }: RecommendedCardProps) {
   const [recommendations, setRecommendations] = useState<Movie[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      const popularMoviesUrl =
-        "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
+    const fetchRecommendations = async () => {
       const apiKey = import.meta.env.VITE_REACT_APP_MOVIE_API_TOKEN;
 
       try {
-        const response = await fetch(popularMoviesUrl, {
-          method: "GET",
-          headers: {
-            accept: "application/json",
-            Authorization: `Bearer ${apiKey}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setMovies(data.results);
-
-        const randomMovie =
-          data.results[Math.floor(Math.random() * data.results.length)];
+        const randomMovie = movies[Math.floor(Math.random() * movies.length)];
         const randomMovieId = randomMovie.id;
 
         const recommendationsUrl = `https://api.themoviedb.org/3/movie/${randomMovieId}/recommendations?language=en-US&page=2`;
@@ -57,9 +42,7 @@ export default function RecommendedCard() {
         });
 
         if (!recommendationsResponse.ok) {
-          throw new Error(
-            `HTTP error! Status: ${recommendationsResponse.status}`
-          );
+          throw new Error(`HTTP error! Status: ${recommendationsResponse.status}`);
         }
 
         const recommendationsData = await recommendationsResponse.json();
@@ -76,9 +59,7 @@ export default function RecommendedCard() {
             });
 
             if (!movieDetailsResponse.ok) {
-              throw new Error(
-                `HTTP error! Status: ${movieDetailsResponse.status}`
-              );
+              throw new Error(`HTTP error! Status: ${movieDetailsResponse.status}`);
             }
 
             const movieDetails = await movieDetailsResponse.json();
@@ -92,18 +73,17 @@ export default function RecommendedCard() {
       }
     };
 
-    fetchMovies();
-  }, []);
+    fetchRecommendations();
+  }, [movies]);
 
   const getYearFromDate = (date: string) => {
     return date.split("-")[0];
   };
 
-   
-   const getTopGenres = (genres: { id: number; name: string }[]) => {
+  const getTopGenres = (genres: { id: number; name: string }[]) => {
     return genres.slice(0, 3).map((genre) => genre.name);
   };
-  
+
   return (
     <div className="p-auto mr-4 mt-4">
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">

@@ -14,6 +14,7 @@ import PlayIcon from "@/icons/PlayIcon";
 import StarIcon from "@/icons/StarIcon";
 import { Card, CardContent } from "@/components/ui/card";
 import Recommended from "./Recommended";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Movie {
   id: number;
@@ -37,8 +38,10 @@ interface TopMovies {
 export default function TrendingMoviesCard() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [topRatedMovies, setTopRatedMovies] = useState<TopMovies[]>([]);
+  const [isLoading, setIsLoading] = useState(true); // Loading state
 
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchMovies = async () => {
       const popularMoviesUrl =
@@ -80,8 +83,6 @@ export default function TrendingMoviesCard() {
         console.error("Error fetching movies:", error);
       }
     };
-
-    fetchMovies();
 
     const fetchTopRatedMovies = async () => {
       try {
@@ -130,11 +131,14 @@ export default function TrendingMoviesCard() {
 
         const resolvedTopRatedMovies = await Promise.all(topRatedMovies);
         setTopRatedMovies(resolvedTopRatedMovies);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching top rated movies:", error);
+        setIsLoading(false);
       }
     };
 
+    fetchMovies();
     fetchTopRatedMovies();
   }, []);
 
@@ -150,26 +154,26 @@ export default function TrendingMoviesCard() {
   return (
     <div className="w-full h-screen">
       <div className="flex justify-center items-center relative">
-        <div className="w-full absolute mt-24 z-20 ">
+        <div className="w-full absolute mt-24 z-20">
           <HomeHeader />
         </div>
       </div>
       <div className="absolute h-full">
         <Carousel className="w-full min-h-screen lg:min-h-screen z-10">
-          <div className="absolute w-full top-[29%] 2xl:top-[62%] xl:top-[51%] lg:top-[40%] md:top-[47%] sm:top-[38%] z-30 ">
+          <div className="absolute w-full top-[29%] 2xl:top-[62%] xl:top-[51%] lg:top-[40%] md:top-[47%] sm:top-[38%] z-30">
             <div className="hidden relative mr-[14%] lg:block">
               <CarouselNext />
             </div>
             <div className="relative hidden ml-[84%] lg:block">
               <CarouselPrevious />
             </div>
-            <div className="">
+            <div>
               <div>
                 <h1 className="flex justify-center font-bold text-white">
                   Trending Movies
                 </h1>
               </div>
-              <div className="mt-2 pl-2">
+              <div className="mt-2 pl-2 min-w-[1900px]">
                 <Carousel
                   opts={{
                     align: "start",
@@ -177,58 +181,67 @@ export default function TrendingMoviesCard() {
                   className="w-[95%]"
                 >
                   <CarouselContent>
-                    {topRatedMovies.map((movie) => (
-                      <CarouselItem
-                        key={movie.id}
-                        className="md:basis-1/2 lg:basis-1/4 relative"
-                      >
-                        <div className="absolute inset-0 bg-black opacity-55"></div>
-
-                        <div className="">
-                          <Card
-                            onClick={() => {
-                              console.log("Clicked movie:", movie);
-                              navigate(`/view-movie/${movie.id}`);
-                            }}
-                            style={{
-                              backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.poster_path})`,
-                              backgroundSize: "cover",
-                              backgroundPosition: "center",
-                              border: "none",
-                              boxShadow: "none",
-                              borderRadius: "20px",
-                            }}
+                    {isLoading
+                      ? // Skeleton Loading State
+                        Array.from({ length: 4 }).map((_, index) => (
+                          <CarouselItem
+                            key={index}
+                            className="md:basis-1/2 lg:basis-1/4 relative"
                           >
-                            <CardContent className="flex justify-start items-end p-3 py-2 h-72 relative">
-                              <div className="flex flex-col">
-                                <span className="text-xl text-white font-bold z-10 relative bottom-3">
-                                  {movie.title}
-                                </span>
-                                <h1 className="z-10 relative flex bottom-2">
-                                  {movie.genres.map((genre) => (
-                                    <div
-                                      key={genre.id}
-                                      className="mr-2 text-sm md:text-base"
-                                    >
-                                      <span className=" text-[#ff3131] py-1 text-sm font-bold">
-                                        {genre.name}
-                                      </span>
-                                    </div>
-                                  ))}
-                                </h1>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        </div>
-                      </CarouselItem>
-                    ))}
+                            <Skeleton className="w-full h-72 rounded-lg" />
+                          </CarouselItem>
+                        ))
+                      : topRatedMovies.map((movie) => (
+                          <CarouselItem
+                            key={movie.id}
+                            className="md:basis-1/2 lg:basis-1/4 relative min-h-[288px]"
+                          >
+                            <div className="absolute inset-0 bg-black opacity-55"></div>
+
+                            <div>
+                              <Card
+                                onClick={() => {
+                                  navigate(`/view-movie/${movie.id}`);
+                                }}
+                                style={{
+                                  backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.poster_path})`,
+                                  backgroundSize: "cover",
+                                  backgroundPosition: "center",
+                                  border: "none",
+                                  boxShadow: "none",
+                                  borderRadius: "20px",
+                                }}
+                              >
+                                <CardContent className="flex justify-start items-end p-3 py-2 h-72 relative">
+                                  <div className="flex flex-col">
+                                    <span className="text-xl text-white font-bold z-10 relative bottom-3">
+                                      {movie.title}
+                                    </span>
+                                    <h1 className="z-10 relative flex bottom-2">
+                                      {movie.genres.map((genre) => (
+                                        <div
+                                          key={genre.id}
+                                          className="mr-2 text-sm md:text-base"
+                                        >
+                                          <span className=" text-[#ff3131] py-1 text-sm font-bold">
+                                            {genre.name}
+                                          </span>
+                                        </div>
+                                      ))}
+                                    </h1>
+                                  </div>
+                                </CardContent>
+                              </Card>
+                            </div>
+                          </CarouselItem>
+                        ))}
                   </CarouselContent>
                   <CarouselNext className="h-20 hidden top-[60%] left-[101%] lg:block" />
                   <CarouselPrevious className="h-20 hidden left-[101%] top-[30%] lg:block" />
                 </Carousel>
               </div>
             </div>
-            <Recommended/>
+            <Recommended />
           </div>
 
           <CarouselContent>
@@ -277,7 +290,7 @@ export default function TrendingMoviesCard() {
                         ))}
                       </div>
                     </div>
-                   
+
                     <h2 className="lg:text-lg xl:text-xl text-white font-light mt-2 line-clamp-3 hidden md:block">
                       {movie.overview}
                     </h2>
@@ -300,7 +313,6 @@ export default function TrendingMoviesCard() {
           </CarouselContent>
         </Carousel>
       </div>
-     
     </div>
   );
 }
