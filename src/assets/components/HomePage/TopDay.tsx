@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import StarIcon3 from "@/icons/StarIcon3";
 import { useNavigate } from "react-router-dom";
@@ -16,45 +15,19 @@ interface Movie {
   genres: { id: number; name: string }[];
 }
 
-export default function TopDay() {
-  const [movies, setMovies] = useState<Movie[]>([]);
+interface TopDayProps {
+  movies: Movie[];
+}
 
+export default function TopDay({ movies }: TopDayProps) {
   const navigate = useNavigate();
-  const apiKey = import.meta.env.VITE_REACT_APP_MOVIE_API_TOKEN;
-  useEffect(() => {
-    const fetchMovies = async () => {
-      const url =
-        "https://api.themoviedb.org/3/trending/movie/day?language=en-US";
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-      };
-
-      try {
-        const response = await fetch(url, options);
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setMovies(data.results.slice(0, 10));
-      } catch (error) {
-        console.error("Error fetching movies:", error);
-      }
-    };
-
-    fetchMovies();
-  }, []);
 
   const handleCardClick = (id: number) => {
     navigate(`/view-movie/${id}`);
   };
 
   return (
-    <div className="grid grid-cols-1 gap-2 mt-6">
+    <div className="grid grid-cols-1 gap-2 mt-6 ">
       {movies.map((movie, index) => (
         <Card
           key={movie.id}
@@ -64,7 +37,7 @@ export default function TopDay() {
           <div className="flex h-20 bg-[#0F0F0F] rounded-2xl overflow-hidden hover:bg-red-500 transition duration-300 ease-in-out group">
             <div className="absolute">
               <div>
-                <h1 className="absolute top-10 left-0 flex items-center justify-center w-8 h-8 bg-[#0F0F0F] rounded-full text-red-500 group-hover:bg-red-500 font-bold text-lg transform -translate-x-1/2 -translate-y-1/2 group-hover:text-black transition-colors duration-300 border-2 border-red-500">
+                <h1 className="absolute top-10 left-0 flex items-center justify-center w-8 h-8 bg-[#0F0F0F] rounded-full text-red-500 group-hover:text-white group-hover:bg-red-500 font-bold text-lg transform -translate-x-1/2 -translate-y-1/2 transition-colors duration-300 border-2 border-red-500">
                   {index + 1}
                 </h1>
               </div>
