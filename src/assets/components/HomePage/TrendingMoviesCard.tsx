@@ -159,7 +159,7 @@ export default function TrendingMoviesCard() {
         </div>
       </div>
       <div className="absolute h-full">
-        <Carousel className="w-full min-h-screen lg:min-h-screen z-10">
+        <Carousel className="w-full min-h-fit lg:h-fit z-10">
           <div className="absolute w-full top-[29%] 2xl:top-[62%] xl:top-[51%] lg:top-[40%] md:top-[47%] sm:top-[38%] z-30">
             <div className="hidden relative mr-[14%] lg:block">
               <CarouselNext />
@@ -241,7 +241,7 @@ export default function TrendingMoviesCard() {
                 </Carousel>
               </div>
             </div>
-           
+           <Recommended/>
           </div>
 
           <CarouselContent>
