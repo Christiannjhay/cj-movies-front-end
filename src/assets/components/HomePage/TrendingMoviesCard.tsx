@@ -173,7 +173,7 @@ export default function TrendingMoviesCard() {
                   Trending Movies
                 </h1>
               </div>
-              <div className="mt-2 pl-2 min-w-[1900px]">
+              <div className="mt-2 pl-2">
                 <Carousel
                   opts={{
                     align: "start",
@@ -241,7 +241,7 @@ export default function TrendingMoviesCard() {
                 </Carousel>
               </div>
             </div>
-            <Recommended />
+           
           </div>
 
           <CarouselContent>

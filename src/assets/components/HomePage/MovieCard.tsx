@@ -15,7 +15,7 @@ interface MovieCardProps {
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick }) => {
-  const imageUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+  const imageUrl = `https://image.tmdb.org/t/p/w300${movie.poster_path}`;
 
   const getYear = (dateString: string): string => {
     return new Date(dateString).getFullYear().toString();
