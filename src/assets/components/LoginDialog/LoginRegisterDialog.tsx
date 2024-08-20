@@ -106,8 +106,9 @@ export function LoginDialog() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
-  const [user, setUser] = useState(null);
-  const [error, setError] = useState(null);
+  const [, setUser] = useState<string| null>(null);
+  const [, setError] = useState<string | null>(null);
+
 
   const handleLogin = async () => {
     try {
