@@ -26,7 +26,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           credentials: 'include',
         });
 
-        const data = await response.json();
 
         if (response.ok) {
           setIsAuthenticated(true);
