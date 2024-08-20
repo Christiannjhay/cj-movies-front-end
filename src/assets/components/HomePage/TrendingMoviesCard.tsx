@@ -15,6 +15,9 @@ import StarIcon from "@/icons/StarIcon";
 import { Card, CardContent } from "@/components/ui/card";
 import Recommended from "./Recommended";
 import { Skeleton } from "@/components/ui/skeleton";
+import { register } from 'swiper/element/bundle';
+
+register();
 
 interface Movie {
   id: number;
@@ -308,6 +311,7 @@ export default function TrendingMoviesCard() {
                     </Button>
                   </div>
                 </div>
+                
               </CarouselItem>
             ))}
           </CarouselContent>

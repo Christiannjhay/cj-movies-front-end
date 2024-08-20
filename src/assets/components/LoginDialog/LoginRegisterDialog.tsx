@@ -17,25 +17,37 @@ import { Label } from "@/components/ui/label";
 import { Toaster, toast } from "sonner";
 
 interface RegisterProps {
-  email: string;
-  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  username: string;
+  setUsername: React.Dispatch<React.SetStateAction<string>>;
   password: string;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
+  onClose: () => void;
 }
 
-function Register({ email, setEmail, password, setPassword }: RegisterProps) {
+function Register({
+  username,
+  setUsername,
+  password,
+  setPassword,
+  onClose,
+}: RegisterProps) {
   const handleRegister = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/register", {
+      const response = await fetch("https://cj-movies-backend.vercel.app/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ username, password }),
       });
       const data = await response.json();
       if (response.ok) {
-        toast.success("Registration Successful");
+        toast.success("Registration Successful, You can now Log In");
+        setTimeout(() => {
+          onClose();
+        }, 1500);
+        setUsername("");
+        setPassword("");
       } else {
         toast.error("Registration failed: " + data.message);
       }
@@ -53,15 +65,15 @@ function Register({ email, setEmail, password, setPassword }: RegisterProps) {
       <CardContent className="space-y-2">
         <div className="space-y-1">
           <Label htmlFor="username" className="text-white">
-            Email
+            Username
           </Label>
 
           <Input
             id="username"
             type="text"
             className="bg-[#27272A] text-white rounded-2xl border-[#FF3131] focus:border-2"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div className="space-y-1">
@@ -91,32 +103,69 @@ function Register({ email, setEmail, password, setPassword }: RegisterProps) {
 }
 
 export function LoginDialog() {
-  const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/login", {
+      const response = await fetch("https://cj-movies-backend.vercel.app/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        credentials: "include",
+        body: JSON.stringify({ username, password }),
       });
+  
       const data = await response.json();
+  
       if (response.ok) {
-        alert("Login successful!");
+        toast.success("Login successful!");
+        setTimeout(async () => {
+          await fetchProfile(); 
+          setUsername("");
+          setPassword("");
+          setDialogOpen(false);
+          window.location.reload();
+        }, 1500);
       } else {
-        alert("Login failed: " + data.message);
+        toast.error("Login failed: " + data.message);
       }
     } catch (error) {
       console.error("Error logging in:", error);
-      alert("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
     }
+
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch('https://cj-movies-backend.vercel.app/profile', {
+          method: 'GET',
+          credentials: 'include',
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          setUser(data.user);
+          setError(null);
+        } else {
+          setUser(null);
+          setError(data.message);
+          toast.error(data.message);
+        }
+      } catch (err) {
+        console.error('Error fetching profile:', err);
+        
+        toast.error('An error occurred. Please try again.');
+      }
+    };
   };
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
         <Button
           variant="outline"
@@ -125,7 +174,8 @@ export function LoginDialog() {
           Login
         </Button>
       </DialogTrigger>
-      <DialogContent className=" w-[90%] sm:max-w-[425px] bg-[#181818] border-none">
+      <DialogContent className="w-[90%] sm:max-w-[425px] bg-[#181818] border-none">
+        <Toaster richColors />
         <Tabs
           defaultValue="account"
           className="w-full sm:w-[375px] bg-[#181818]"
@@ -146,13 +196,13 @@ export function LoginDialog() {
               <CardContent className="space-y-2">
                 <div className="space-y-1">
                   <Label htmlFor="username" className="text-white font-regular">
-                    Email
+                    Username
                   </Label>
                   <Input
                     id="loginUsername"
                     className="bg-[#27272A] text-white rounded-2xl border-[#FF3131] focus:border-2"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
                 <div className="space-y-1">
@@ -180,10 +230,11 @@ export function LoginDialog() {
           </TabsContent>
           <TabsContent value="password">
             <Register
-              email={email}
-              setEmail={setEmail}
+              username={username}
+              setUsername={setUsername}
               password={password}
               setPassword={setPassword}
+              onClose={() => setDialogOpen(false)}
             />
           </TabsContent>
         </Tabs>

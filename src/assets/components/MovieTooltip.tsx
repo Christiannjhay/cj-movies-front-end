@@ -5,10 +5,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import PlusIcon from "@/icons/PlusIcon";
 import StarIcon2 from "@/icons/StartIcon2";
 import TooltipPLayIcon from "@/icons/TooltipPLayIcon";
 import { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 interface MovieTooltipProps {
   children: ReactNode;
@@ -43,10 +45,35 @@ export default function MovieTooltip({
   };
 
   const navigate = useNavigate();
+ 
 
   const handleWatchNowClick = () => {
     navigate(`/view-movie/${id}`);
   };
+
+  const handleBookmarkClick = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/bookmark', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ movieId: id }),
+        credentials: 'include', 
+      });
+
+      if (response.ok) {
+        toast.success("Bookmarked successfully!");
+      } else {
+        const errorData = await response.json();
+        toast.error("Bookmark failed: " + errorData.message);
+      }
+    } catch (error) {
+      console.error('Error bookmarking movie:', error);
+      toast.error("An error occurred. Please try again.");
+    }
+  };
+
   return (
     <TooltipProvider>
       <Tooltip>
@@ -57,7 +84,14 @@ export default function MovieTooltip({
           align="start"
         >
           <div className="flex flex-col flex-grow">
-            <p className="text-lg font-bold">{title}</p>
+            <div className="grid grid-cols-12">
+              <div className="col-span-11">
+                <p className="text-lg font-bold">{title}</p>
+              </div>
+              <div className="col-span-1 hover:scale-110 transition ease-in-out cursor-pointer h-fit" onClick={handleBookmarkClick}>
+                <PlusIcon />
+              </div>
+            </div>
             <div className="flex">
               <p className="text-red-500 font-medium">{release_date}</p>
               <div className="mt-[2px] ml-2">
