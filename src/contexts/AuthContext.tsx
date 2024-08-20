@@ -21,7 +21,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Check authentication status when the app loads
     const checkAuth = async () => {
       try {
-        const response = await fetch('http://localhost:3000/profile', {
+        const response = await fetch('https://cj-movies-backend.vercel.app/profile', {
           method: 'GET',
           credentials: 'include',
         });
