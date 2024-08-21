@@ -1,14 +1,9 @@
+import { ReactNode } from "react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import PlusIcon from "@/icons/PlusIcon";
 import StarIcon2 from "@/icons/StartIcon2";
 import TooltipPLayIcon from "@/icons/TooltipPLayIcon";
-import { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -23,6 +18,7 @@ interface MovieTooltipProps {
   production_countries: string[];
   genres: string[];
   id: number;
+  showTooltip: boolean; // Renamed to `showTooltip`
 }
 
 export default function MovieTooltip({
@@ -36,6 +32,7 @@ export default function MovieTooltip({
   genres,
   vote_count,
   id,
+  showTooltip
 }: MovieTooltipProps) {
   const truncateOverview = (text: string, maxLength: number = 140) => {
     if (text.length > maxLength) {
@@ -45,7 +42,6 @@ export default function MovieTooltip({
   };
 
   const navigate = useNavigate();
- 
 
   const handleWatchNowClick = () => {
     navigate(`/view-movie/${id}`);
@@ -59,7 +55,7 @@ export default function MovieTooltip({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ movieId: id }),
-        credentials: 'include', 
+        credentials: 'include',
       });
 
       if (response.ok) {
@@ -76,7 +72,7 @@ export default function MovieTooltip({
 
   return (
     <TooltipProvider>
-      <Tooltip>
+      <Tooltip open={showTooltip}> {/* Changed to `showTooltip` */}
         <TooltipTrigger>{children}</TooltipTrigger>
         <TooltipContent
           className="bg-[#26272c] outline-none border-0 text-white flex flex-col h-[330px] w-[310px] p-6"

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import MovieCard from "./MovieCard";
 import MovieTooltip from "../MovieTooltip";
@@ -21,6 +21,9 @@ export default function RecommendedCard() {
   const [recommendations, setRecommendations] = useState<Movie[]>([]);
   const [isLongPressing, setIsLongPressing] = useState(false);
   const [longPressMovie, setLongPressMovie] = useState<Movie | null>(null);
+  const [longPressTimeout, setLongPressTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [hoveredMovie, setHoveredMovie] = useState<Movie | null>(null);
+  const popupRef = useRef<HTMLDivElement | null>(null); // Ref for the popup
 
   const navigate = useNavigate();
 
@@ -99,14 +102,48 @@ export default function RecommendedCard() {
   }, []);
 
   const handleLongPressStart = useCallback((movie: Movie) => {
-    setIsLongPressing(true);
-    setLongPressMovie(movie);
+    const timeout = setTimeout(() => {
+      setIsLongPressing(true);
+      setLongPressMovie(movie);
+    }, 2000); // 2-second delay
+
+    setLongPressTimeout(timeout);
   }, []);
 
   const handleLongPressEnd = useCallback(() => {
-    setIsLongPressing(false);
+    if (longPressTimeout) {
+      clearTimeout(longPressTimeout);
+    }
     setLongPressMovie(null);
-  }, []);
+    setIsLongPressing(false);
+  }, [longPressTimeout]);
+
+  const handleMouseEnter = (movie: Movie) => {
+    setHoveredMovie(movie);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredMovie(null);
+  };
+
+  const handleClickOutside = useCallback((event: MouseEvent) => {
+    // Check if click is outside the popup
+    if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+      handleLongPressEnd(); // Hide popup if click is outside
+    }
+  }, [handleLongPressEnd]);
+
+  useEffect(() => {
+    if (isLongPressing) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isLongPressing, handleClickOutside]);
 
   const getYearFromDate = (date: string) => {
     return date.split("-")[0];
@@ -129,6 +166,7 @@ export default function RecommendedCard() {
             runtime={movie.runtime}
             vote_count={movie.vote_count}
             release_date={getYearFromDate(movie.release_date)}
+            showTooltip={hoveredMovie === movie} // Show tooltip on hover
             genres={getTopGenres(movie.genres)}
             production_countries={movie.production_countries
               .map((country) => country.name)
@@ -137,6 +175,10 @@ export default function RecommendedCard() {
             <div
               onTouchStart={() => handleLongPressStart(movie)}
               onTouchEnd={handleLongPressEnd}
+              onMouseEnter={() => handleMouseEnter(movie)}
+              onMouseLeave={handleMouseLeave}
+              onMouseDown={() => handleLongPressStart(movie)}
+              onMouseUp={handleLongPressEnd}
               className="relative lg:block"
             >
               <MovieCard
@@ -152,10 +194,13 @@ export default function RecommendedCard() {
 
       {/* Long Press Popup */}
       {isLongPressing && longPressMovie && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          ref={popupRef} // Attach ref to the popup
+        >
           <div className="bg-white p-4 rounded-lg shadow-lg max-w-xs w-full text-center">
             <h3 className="text-lg font-semibold">{longPressMovie.title}</h3>
-            <p className="mt-2">{longPressMovie.overview}</p>
+            <p className="mt-2">{longPressMovie.release_date}</p>
             <button
               className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
               onClick={() => {
@@ -164,12 +209,6 @@ export default function RecommendedCard() {
               }}
             >
               Add to Bookmarks
-            </button>
-            <button
-              className="mt-2 px-4 py-2 bg-red-600 text-white rounded"
-              onClick={handleLongPressEnd}
-            >
-              Close
             </button>
           </div>
         </div>
