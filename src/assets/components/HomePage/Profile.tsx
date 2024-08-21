@@ -29,8 +29,8 @@ export function Profile() {
       if (response.ok) {
         toast.success("Logged out successfully!");
         setTimeout(() => {
-          window.location.reload();
-        }, 1500);
+          navigate(`/`);
+        }, 500);
       } else {
         toast.error("Logout failed: " + data.message);
       }
