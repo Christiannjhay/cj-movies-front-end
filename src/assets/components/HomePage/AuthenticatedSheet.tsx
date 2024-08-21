@@ -16,8 +16,8 @@ export default function AuthenticatedSheet() {
             <AvatarFallback>{user?.username?.charAt(0) || 'U'}</AvatarFallback>
           </Avatar>
         </div>
-        <div className="col-span-10 bg-red-300">
-          <h1>{isAuthenticated ? `Welcome, ${user?.username}` : 'Please log in'}</h1>
+        <div className="col-span-10 bg-red-300 flex items-center justify-start">
+          <h1 className="ml-2">{isAuthenticated ? `${user?.username}` : 'Please log in'}</h1>
         </div>
       </div>
     </div>
