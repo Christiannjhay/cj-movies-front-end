@@ -53,7 +53,7 @@ export default function MovieTooltip({
 
   const handleBookmarkClick = async () => {
     try {
-      const response = await fetch('http://localhost:3000/bookmark', {
+      const response = await fetch('https://api.movies.cejs.site/bookmark', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
