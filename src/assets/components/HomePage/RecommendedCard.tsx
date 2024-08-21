@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import MovieCard from "./MovieCard";
 import MovieTooltip from "../MovieTooltip";
@@ -19,6 +19,9 @@ interface Movie {
 export default function RecommendedCard() {
   const [, setMovies] = useState<Movie[]>([]);
   const [recommendations, setRecommendations] = useState<Movie[]>([]);
+  const [isLongPressing, setIsLongPressing] = useState(false);
+  const [longPressMovie, setLongPressMovie] = useState<Movie | null>(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -95,15 +98,24 @@ export default function RecommendedCard() {
     fetchMovies();
   }, []);
 
+  const handleLongPressStart = useCallback((movie: Movie) => {
+    setIsLongPressing(true);
+    setLongPressMovie(movie);
+  }, []);
+
+  const handleLongPressEnd = useCallback(() => {
+    setIsLongPressing(false);
+    setLongPressMovie(null);
+  }, []);
+
   const getYearFromDate = (date: string) => {
     return date.split("-")[0];
   };
 
-   
-   const getTopGenres = (genres: { id: number; name: string }[]) => {
+  const getTopGenres = (genres: { id: number; name: string }[]) => {
     return genres.slice(0, 3).map((genre) => genre.name);
   };
-  
+
   return (
     <div className="p-auto mr-4 mt-4">
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
@@ -119,18 +131,49 @@ export default function RecommendedCard() {
             release_date={getYearFromDate(movie.release_date)}
             genres={getTopGenres(movie.genres)}
             production_countries={movie.production_countries
-              .map((country: { name: string }) => country.name)
+              .map((country) => country.name)
               .slice(0, 3)}
           >
-            <MovieCard
-              movie={movie}
-              onClick={() => {
-                navigate(`/view-movie/${movie.id}`);
-              }}
-            />
+            <div
+              onTouchStart={() => handleLongPressStart(movie)}
+              onTouchEnd={handleLongPressEnd}
+              className="relative lg:block"
+            >
+              <MovieCard
+                movie={movie}
+                onClick={() => {
+                  navigate(`/view-movie/${movie.id}`);
+                }}
+              />
+            </div>
           </MovieTooltip>
         ))}
       </div>
+
+      {/* Long Press Popup */}
+      {isLongPressing && longPressMovie && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-4 rounded-lg shadow-lg max-w-xs w-full text-center">
+            <h3 className="text-lg font-semibold">{longPressMovie.title}</h3>
+            <p className="mt-2">{longPressMovie.overview}</p>
+            <button
+              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
+              onClick={() => {
+                // Add movie to bookmarks logic
+                handleLongPressEnd(); // Close the popup
+              }}
+            >
+              Add to Bookmarks
+            </button>
+            <button
+              className="mt-2 px-4 py-2 bg-red-600 text-white rounded"
+              onClick={handleLongPressEnd}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
