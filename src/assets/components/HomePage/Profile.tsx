@@ -30,6 +30,7 @@ export function Profile() {
         toast.success("Logged out successfully!");
         setTimeout(() => {
           navigate(`/`);
+          window.location.reload();
         }, 500);
       } else {
         toast.error("Logout failed: " + data.message);
