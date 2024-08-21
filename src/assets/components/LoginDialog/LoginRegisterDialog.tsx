@@ -33,7 +33,7 @@ function Register({
 }: RegisterProps) {
   const handleRegister = async () => {
     try {
-      const response = await fetch("https://cj-movies-backend.vercel.app/register", {
+      const response = await fetch("https://api-cj-movies.vercel.app/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -112,7 +112,7 @@ export function LoginDialog() {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("https://cj-movies-backend.vercel.app/login", {
+      const response = await fetch("https://api-cj-movies.vercel.app/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -143,7 +143,7 @@ export function LoginDialog() {
 
     const fetchProfile = async () => {
       try {
-        const response = await fetch('https://cj-movies-backend.vercel.app/profile', {
+        const response = await fetch('https://api-cj-movies.vercel.app/profile', {
           method: 'GET',
           credentials: 'include',
         });
