@@ -29,7 +29,7 @@ export default function Bookmarks() {
 
     const fetchBookmarkedMovies = async () => {
       try {
-        const response = await fetch('https://cj-movies-backend.vercel.app/bookmarked-movies', {
+        const response = await fetch('https://api.movies.cejs.site/bookmarked-movies', {
           method: 'GET',
           credentials: 'include',
         });

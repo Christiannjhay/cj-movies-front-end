@@ -20,7 +20,7 @@ export function Profile() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("https://cj-movies-backend.vercel.app/logout", {
+      const response = await fetch("https://api.movies.cejs.site/logout", {
         method: "POST",
         credentials: "include",
       });
