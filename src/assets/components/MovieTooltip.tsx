@@ -18,7 +18,7 @@ interface MovieTooltipProps {
   production_countries: string[];
   genres: string[];
   id: number;
-  showTooltip: boolean; // Renamed to `showTooltip`
+  showTooltip: boolean; 
 }
 
 export default function MovieTooltip({

@@ -105,6 +105,7 @@ export default function ViewMovieRecommendedCard() {
             vote_average={movie.vote_average}
             runtime={movie.runtime}
             vote_count={movie.vote_count}
+            showTooltip={true}
             release_date={getYearFromDate(movie.release_date)}
             genres={getTopGenres(movie.genres)}
             production_countries={getTopCountries(movie.production_countries)}
