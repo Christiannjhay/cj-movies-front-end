@@ -112,13 +112,13 @@ export function LoginDialog() {
 
   const handleLogin = async () => {
     try {
-      // Perform login request
-      const response = await fetch("https://api-cj-movies.vercel.app/login", {
+      
+      const response = await fetch("https://api.movies.cejs.site/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
+        credentials: 'include',
         body: JSON.stringify({ username, password }),
       });
       
@@ -126,11 +126,8 @@ export function LoginDialog() {
       
       if (response.ok) {
         toast.success("Login successful!");
-  
-        // After successful login, fetch the profile
         await fetchProfile();
   
-        // Clear form and close dialog
         setUsername("");
         setPassword("");
         setDialogOpen(false);
@@ -146,7 +143,7 @@ export function LoginDialog() {
   
   const fetchProfile = async () => {
     try {
-      const response = await fetch('https://api-cj-movies.vercel.app/profile', {
+      const response = await fetch('https://api.movies.cejs.site/profile', {
         method: 'GET',
         credentials: 'include',
       });
