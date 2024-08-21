@@ -112,27 +112,28 @@ export function LoginDialog() {
 
   const handleLogin = async () => {
     try {
+      // Perform login request
       const response = await fetch("https://api-cj-movies.vercel.app/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        
         credentials: "include",
         body: JSON.stringify({ username, password }),
       });
       
       const data = await response.json();
-  
+      
       if (response.ok) {
         toast.success("Login successful!");
-        setTimeout(async () => {
-          await fetchProfile(); 
-          setUsername("");
-          setPassword("");
-          setDialogOpen(false);
-          
-        }, 1500);
+  
+        // After successful login, fetch the profile
+        await fetchProfile();
+  
+        // Clear form and close dialog
+        setUsername("");
+        setPassword("");
+        setDialogOpen(false);
       } else {
         toast.error("Login failed: " + data.message);
       }
@@ -140,30 +141,30 @@ export function LoginDialog() {
       console.error("Error logging in:", error);
       toast.error("An error occurred. Please try again.");
     }
-
-    const fetchProfile = async () => {
-      try {
-        const response = await fetch('https://api-cj-movies.vercel.app/profile', {
-          method: 'GET',
-          credentials: 'include',
-        });
+  };
   
-        const data = await response.json();
   
-        if (response.ok) {
-          setUser(data.user);
-          setError(null);
-        } else {
-          setUser(null);
-          setError(data.message);
-          toast.error(data.message);
-        }
-      } catch (err) {
-        console.error('Error fetching profile:', err);
-        
-        toast.error('An error occurred. Please try again.');
+  const fetchProfile = async () => {
+    try {
+      const response = await fetch('https://api-cj-movies.vercel.app/profile', {
+        method: 'GET',
+        credentials: 'include',
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        setUser(data.user);
+        setError(null);
+      } else {
+        setUser(null);
+        setError(data.message);
+        toast.error(data.message);
       }
-    };
+    } catch (err) {
+      console.error('Error fetching profile:', err);
+      toast.error('An error occurred. Please try again.');
+    }
   };
 
   return (
