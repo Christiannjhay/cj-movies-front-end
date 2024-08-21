@@ -7,9 +7,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function AuthenticatedSheet() {
-const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
-  
+
   const handleLogout = async () => {
     try {
       const response = await fetch("https://api.movies.cejs.site/logout", {
@@ -32,7 +32,7 @@ const { isAuthenticated, user } = useAuth();
       toast.error("An error occurred. Please try again.");
     }
   };
-  
+
   return (
     <div className="w-full">
       <div className="w-full grid grid-cols-12 content-center">
@@ -55,23 +55,27 @@ const { isAuthenticated, user } = useAuth();
         <div className="text-white font-extralight">
           <h1>Edit Profile</h1>
         </div>
-        <div className="mt-2 text-white font-extralight" onClick={() => {
-              navigate(`/bookmarks`);
-            }}>
+        <div
+          className="mt-2 text-white font-extralight"
+          onClick={() => {
+            navigate(`/bookmarks`);
+          }}
+        >
           <h1>Bookmarks</h1>
         </div>
 
         <div className="w-full mt-2">
           <MenubarSeparator />
           <div className="w-full mt-2">
-            <Button className="w-full rounded-lg" onClick={handleLogout}>
+            <Button
+              className="w-full rounded-lg bg-red-500 active:bg-red-700"
+              onClick={handleLogout}
+            >
               <div className="flex">
-                    <div className="font-normal">
-                        Logout
-                    </div>
-                    <div className="mt-[3px] ml-2">
-                        <LogoutIcon/>
-                    </div>
+                <div className="font-normal">Logout</div>
+                <div className="mt-[3px] ml-2">
+                  <LogoutIcon />
+                </div>
               </div>
             </Button>
           </div>
