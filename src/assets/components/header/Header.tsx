@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import Logo from "./logo";
 import SearchBar from "./SearchBar";
-import {Profile} from "../HomePage/Profile";
+import { Profile } from "../HomePage/Profile";
 import { LoginDialog } from "../LoginDialog/LoginRegisterDialog";
 import { useAuth } from "@/contexts/AuthContext";
+import { SheetSide } from "../HomePage/SheetSide";
 
 export default function Header() {
   const { isAuthenticated } = useAuth();
@@ -15,11 +16,16 @@ export default function Header() {
           <Logo />
         </Link>
       </div>
+      <div className="col-span-1">
+        <div className="sm:hidden flex items-center justify-end mt-5">
+          <SheetSide />
+        </div>
+      </div>
       <div className="flex items-center mb-4 justify-center col-span-6 sm:mb-0">
         <SearchBar></SearchBar>
       </div>
       <div className="hidden mt-8 sm:block 2xl:ml-44 xl:ml-36 lg:ml-28 md:ml-20 sm:ml-10">
-        {isAuthenticated ? <Profile/> : <LoginDialog />}
+        {isAuthenticated ? <Profile /> : <LoginDialog />}
       </div>
     </div>
   );
