@@ -14,7 +14,6 @@ import AuthenticatedSheet from "./AuthenticatedSheet";
 
 export function SheetSide() {
   const { isAuthenticated } = useAuth();
-  
 
   return (
     <div className="grid grid-cols-2 gap-2">

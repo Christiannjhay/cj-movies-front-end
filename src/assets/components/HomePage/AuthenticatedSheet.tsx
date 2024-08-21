@@ -45,7 +45,7 @@ export default function AuthenticatedSheet() {
             <AvatarFallback>{user?.username?.charAt(0) || "U"}</AvatarFallback>
           </Avatar>
         </div>
-        <div className="col-span-10 bg-red-300 flex items-center justify-start">
+        <div className="col-span-10 flex items-center justify-start">
           <h1 className="ml-2">
             {isAuthenticated ? `${user?.username}` : "Please log in"}
           </h1>
@@ -63,7 +63,7 @@ export default function AuthenticatedSheet() {
         <div className="w-full mt-2">
           <MenubarSeparator />
           <div className="w-full mt-2">
-            <Button className="w-full bg-red-500 rounded-lg" onClick={handleLogout}>
+            <Button className="w-full rounded-lg" onClick={handleLogout}>
               <div className="flex">
                     <div className="font-normal">
                         Logout
