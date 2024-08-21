@@ -60,6 +60,7 @@ export default function AuthenticatedSheet() {
             }}>
           <h1>Bookmarks</h1>
         </div>
+        
         <div className="w-full mt-2">
           <MenubarSeparator />
           <div className="w-full mt-2">
