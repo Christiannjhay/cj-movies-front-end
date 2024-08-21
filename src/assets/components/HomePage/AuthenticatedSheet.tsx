@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function AuthenticatedSheet() {
-  const { isAuthenticated, user } = useAuth();
+const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   
   const handleLogout = async () => {
@@ -36,7 +36,7 @@ export default function AuthenticatedSheet() {
   return (
     <div className="w-full">
       <div className="w-full grid grid-cols-12 content-center">
-        <div className="col-span-2 bg-red-500">
+        <div className="col-span-2 ">
           <Avatar>
             <AvatarImage
               src="https://github.com/shadcn.png"
@@ -46,7 +46,7 @@ export default function AuthenticatedSheet() {
           </Avatar>
         </div>
         <div className="col-span-10 flex items-center justify-start">
-          <h1 className="ml-2">
+          <h1 className="ml-2 text-white font-semibold text-lg">
             {isAuthenticated ? `${user?.username}` : "Please log in"}
           </h1>
         </div>
@@ -60,7 +60,7 @@ export default function AuthenticatedSheet() {
             }}>
           <h1>Bookmarks</h1>
         </div>
-        
+
         <div className="w-full mt-2">
           <MenubarSeparator />
           <div className="w-full mt-2">
