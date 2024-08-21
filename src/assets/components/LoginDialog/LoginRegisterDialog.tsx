@@ -127,10 +127,10 @@ export function LoginDialog() {
       if (response.ok) {
         toast.success("Login successful!");
         await fetchProfile();
-  
         setUsername("");
         setPassword("");
         setDialogOpen(false);
+        window.location.reload(); 
       } else {
         toast.error("Login failed: " + data.message);
       }
