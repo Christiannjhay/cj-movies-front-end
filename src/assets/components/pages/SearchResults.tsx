@@ -108,6 +108,7 @@ export default function SearchResult({}: SearchResultProps) {
               key={movie.id}
               title={movie.title}
               overview={movie.overview}
+              showTooltip={true}
               vote_average={movie.vote_average}
               runtime={movie.runtime}
               vote_count={movie.vote_count}
