@@ -117,10 +117,11 @@ export function LoginDialog() {
         headers: {
           "Content-Type": "application/json",
         },
+        
         credentials: "include",
         body: JSON.stringify({ username, password }),
       });
-  
+      
       const data = await response.json();
   
       if (response.ok) {
@@ -130,7 +131,7 @@ export function LoginDialog() {
           setUsername("");
           setPassword("");
           setDialogOpen(false);
-          window.location.reload();
+          
         }, 1500);
       } else {
         toast.error("Login failed: " + data.message);
