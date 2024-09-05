@@ -55,9 +55,9 @@ export default function Bookmarks() {
 
   if (loading) {
     return (
-      <p className="text-center text-gray-500">
-        <button type="button" className="bg-red-500 ..." disabled>
-          <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
+      <p className="text-center text-white justify-center items-center">
+        <button type="button" className=" ..." disabled>
+          <svg className="animate-spin h-10 w-10 mr-3 ..." viewBox="0 0 24 24">
             <circle
               className="opacity-25"
               cx="12"
@@ -72,7 +72,6 @@ export default function Bookmarks() {
               d="M4 12a8 8 0 018-8V2.5"
             ></path>
           </svg>
-          Loading
         </button>
       </p>
     );
