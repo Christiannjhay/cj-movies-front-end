@@ -88,9 +88,9 @@
   width: 60px;
   aspect-ratio: 2;
   background: 
-    radial-gradient(circle closest-side, #000 90%, #0000) no-repeat,
-    radial-gradient(circle closest-side, #000 90%, #0000) no-repeat,
-    radial-gradient(circle closest-side, #000 90%, #0000) no-repeat;
+    radial-gradient(circle closest-side, #FF3131 90%, #0000) no-repeat,
+    radial-gradient(circle closest-side, #FF3131 90%, #0000) no-repeat,
+    radial-gradient(circle closest-side, #FF3131 90%, #0000) no-repeat;
   background-size: calc(100% / 3) 50%;
   animation: l3 1s infinite linear;
 }
