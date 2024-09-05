@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MovieCard from "../HomePage/MovieCard";
-import MovieTooltip from "../MovieTooltip";
 import RecommendedIcon2 from "@/icons/RecommendedIcon2";
 import { useAuth } from "@/contexts/AuthContext";
+import BookmarkTooltip from "../Bookmarks/BookmarkTooltip";
 
 interface Movie {
   id: number;
@@ -65,7 +65,7 @@ export default function Bookmarks() {
       <div className="grid gap-3 grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-9">
         {movies.length > 0 ? (
           movies.map((movie) => (
-            <MovieTooltip
+            <BookmarkTooltip
               id={movie.id}
               key={movie.id}
               title={movie.title}
@@ -82,7 +82,7 @@ export default function Bookmarks() {
                 movie={movie}
                 onClick={() => navigate(`/view-movie/${movie.id}`)}
               />
-            </MovieTooltip>
+            </BookmarkTooltip>
           ))
         ) : (
           <p className="text-center text-gray-500">
