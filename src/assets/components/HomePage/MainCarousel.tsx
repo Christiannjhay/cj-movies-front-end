@@ -86,8 +86,8 @@ export default function MainCarousel() {
   };
 
   return (
-    <Carousel>
-      <CarouselContent>
+    <Carousel >
+      <CarouselContent >
         {isLoading
           ? Array.from({ length: 5 }).map((_, index) => (
               <CarouselItem key={index} className="relative">
@@ -96,7 +96,7 @@ export default function MainCarousel() {
               </CarouselItem>
             ))
           : movies.map((movie) => (
-              <CarouselItem key={movie.id}>
+              <CarouselItem key={movie.id} className="p-0">
                 <div className="w-full h-fit relative bg-[#181818]">
                   <img
                     src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}

@@ -79,7 +79,7 @@ export default function SecondCarousel() {
   
   return (
     <div className="relative ">
-      <Carousel className="w-11/12 min-h-fit lg:h-fit">
+      <Carousel className="w-11/12 min-h-fit lg:h-fit ">
         <CarouselContent>
           {isLoading
             ? // Skeleton Loading State
@@ -94,11 +94,12 @@ export default function SecondCarousel() {
             : topRatedMovies.map((movie) => (
                 <CarouselItem
                   key={movie.id}
-                  className="md:basis-1/2 lg:basis-1/4 relative min-h-[288px] "
+                  className="md:basis-1/2 lg:basis-1/4 relative min-h-[288px]"
                 >
-                  <div className="absolute inset-0 bg-black opacity-55"></div>
+                  <div className="absolute inset-0 bg-black opacity-65"></div>
                   <div>
                     <Card
+
                       onClick={() => {
                         navigate(`/view-movie/${movie.id}`);
                       }}
@@ -111,7 +112,7 @@ export default function SecondCarousel() {
                         borderRadius: "20px",
                       }}
                     >
-                      <CardContent className="flex justify-start items-end p-3 py-2 h-72 relative ">
+                      <CardContent className="flex justify-start items-end p-3 py-2 h-72 relative  rounded-xl ">
                         <div className="flex flex-col ">
                           <span className="text-xl text-white font-bold z-10 relative bottom-3 ">
                             {movie.title}
