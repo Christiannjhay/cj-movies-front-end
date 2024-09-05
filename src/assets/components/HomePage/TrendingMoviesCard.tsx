@@ -8,14 +8,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import HomeHeader from "./HomeHeader";
 import { Button } from "@/components/ui/button";
 import PlayIcon from "@/icons/PlayIcon";
 import StarIcon from "@/icons/StarIcon";
 import { Card, CardContent } from "@/components/ui/card";
-import Recommended from "./Recommended";
+
 import { Skeleton } from "@/components/ui/skeleton";
-import { register } from 'swiper/element/bundle';
+import { register } from "swiper/element/bundle";
 
 register();
 
@@ -157,9 +156,7 @@ export default function TrendingMoviesCard() {
   return (
     <div className="w-full h-screen">
       <div className="flex justify-center items-center relative">
-        <div className="w-full absolute mt-24 z-20">
-          <HomeHeader />
-        </div>
+        <div className="w-full absolute mt-24 z-20"></div>
       </div>
       <div className="absolute h-full">
         <Carousel className="w-full min-h-fit lg:h-fit z-10">
@@ -244,13 +241,12 @@ export default function TrendingMoviesCard() {
                 </Carousel>
               </div>
             </div>
-           <Recommended/>
           </div>
 
           <CarouselContent>
             {movies.map((movie) => (
               <CarouselItem key={movie.id}>
-                <div className="w-full h-[1080px] relative bg-[#181818]">
+                <div className="w-full h-[1080px] relative bg-[#181818] ">
                   <img
                     src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
                     alt={movie.title}
@@ -311,7 +307,6 @@ export default function TrendingMoviesCard() {
                     </Button>
                   </div>
                 </div>
-                
               </CarouselItem>
             ))}
           </CarouselContent>

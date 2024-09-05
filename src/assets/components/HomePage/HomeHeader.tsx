@@ -10,7 +10,7 @@ export default function HomeHeader() {
   const { isAuthenticated } = useAuth();
 
   return (
-    <div className="w-100% h-[150px] grid grid-cols-1 sm:grid-cols-12 sm:h-[100px] ">
+    <div className="w-100% h-[150px] grid grid-cols-1 sm:grid-cols-12 sm:h-[100px]">
       <div className="flex col-span-1 justify-center items-center mt-4 sm:col-span-3 w-full">
         <div className="grid grid-cols-12">
           <div className="col-span-11">
