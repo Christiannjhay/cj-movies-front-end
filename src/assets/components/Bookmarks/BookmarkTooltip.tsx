@@ -60,6 +60,9 @@ export default function BookmarkTooltip({
   
       if (response.ok) {
         toast.success("Bookmark removed successfully!");
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       } else {
         const errorData = await response.json();
         toast.error("Remove bookmark failed: " + errorData.message);
