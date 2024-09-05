@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import MovieCard from "../HomePage/MovieCard";
 import MovieTooltip from "../MovieTooltip";
+import LoadingDots from "@/icons/LoadingDots";
 
 interface Movie {
   id: number;
@@ -90,7 +91,7 @@ export default function ViewMovieRecommendedCard() {
   };
 
   if (loading) {
-    return <p className="text-center text-gray-500">Loading...</p>;
+    return <p className="text-center text-gray-500"><LoadingDots/></p>;
   }
 
   return (
