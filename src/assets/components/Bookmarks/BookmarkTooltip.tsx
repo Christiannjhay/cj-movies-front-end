@@ -47,25 +47,25 @@ export default function BookmarkTooltip({
     navigate(`/view-movie/${id}`);
   };
 
-  const handleBookmarkClick = async () => {
+  const handleRemoveBookmarkClick = async () => {
     try {
-      const response = await fetch('https://api.movies.cejs.site/bookmark', {
-        method: 'POST',
+      const response = await fetch('https://api.movies.cejs.site/remove-bookmark', {
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ movieId: id }),
         credentials: 'include',
       });
-
+  
       if (response.ok) {
-        toast.success("Bookmarked successfully!");
+        toast.success("Bookmark removed successfully!");
       } else {
         const errorData = await response.json();
-        toast.error("Bookmark failed: " + errorData.message);
+        toast.error("Remove bookmark failed: " + errorData.message);
       }
     } catch (error) {
-      console.error('Error bookmarking movie:', error);
+      console.error('Error removing bookmark:', error);
       toast.error("An error occurred. Please try again.");
     }
   };
@@ -87,7 +87,7 @@ export default function BookmarkTooltip({
                 </div>
                 <div
                   className="col-span-1 hover:scale-110 transition ease-in-out cursor-pointer h-fit"
-                  onClick={handleBookmarkClick}
+                  onClick={handleRemoveBookmarkClick}
                 >
                   <RemoveIcon />
                 </div>
