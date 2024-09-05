@@ -9,7 +9,6 @@ export default function HomePage() {
       <div className="flex justify-center items-center absolute top-0 left-0 w-full z-50">
         <HomeHeader />
       </div>
-
       <div className="relative w-full">
         <div className="relative z-10">
           <MainCarousel />

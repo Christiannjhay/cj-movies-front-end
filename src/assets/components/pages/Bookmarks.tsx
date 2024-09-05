@@ -25,23 +25,26 @@ export default function Bookmarks() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isAuthenticated) return; 
+    if (!isAuthenticated) return;
 
     const fetchBookmarkedMovies = async () => {
       try {
-        const response = await fetch('https://api.movies.cejs.site/bookmarked-movies', {
-          method: 'GET',
-          credentials: 'include',
-        });
+        const response = await fetch(
+          "https://api.movies.cejs.site/bookmarked-movies",
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
         const data = await response.json();
 
         if (response.ok) {
           setMovies(data.movies);
         } else {
-          console.error('Error fetching user-bookmarked movies:', data.message);
+          console.error("Error fetching user-bookmarked movies:", data.message);
         }
       } catch (error) {
-        console.error('Error fetching user-bookmarked movies:', error);
+        console.error("Error fetching user-bookmarked movies:", error);
       } finally {
         setLoading(false);
       }
@@ -51,7 +54,28 @@ export default function Bookmarks() {
   }, [isAuthenticated]);
 
   if (loading) {
-    return <p className="text-center text-gray-500">Loading...</p>;
+    return (
+      <p className="text-center text-gray-500">
+        <button type="button" className="bg-red-500 ..." disabled>
+          <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V2.5"
+            ></path>
+          </svg>
+          Loading
+        </button>
+      </p>
+    );
   }
 
   return (
@@ -74,7 +98,9 @@ export default function Bookmarks() {
               vote_average={parseFloat(movie.vote_average)}
               runtime={movie.runtime}
               vote_count={movie.vote_count}
-              release_date={new Date(movie.release_date).getFullYear().toString()}
+              release_date={new Date(movie.release_date)
+                .getFullYear()
+                .toString()}
               genres={movie.genres}
               production_countries={movie.production_countries}
             >
