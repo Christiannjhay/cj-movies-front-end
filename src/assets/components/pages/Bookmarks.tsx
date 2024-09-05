@@ -4,6 +4,7 @@ import MovieCard from "../HomePage/MovieCard";
 import RecommendedIcon2 from "@/icons/RecommendedIcon2";
 import { useAuth } from "@/contexts/AuthContext";
 import BookmarkTooltip from "../Bookmarks/BookmarkTooltip";
+import LoadingDots from "@/icons/LoadingDots";
 
 interface Movie {
   id: number;
@@ -56,24 +57,7 @@ export default function Bookmarks() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen bg-[#181818]">
-        <svg
-          className="animate-spin h-10 w-10 text-white"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-          ></circle>
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V2.5"
-          ></path>
-        </svg>
+        <LoadingDots/>
       </div>
     );
   }
