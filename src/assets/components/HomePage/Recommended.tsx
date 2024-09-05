@@ -4,6 +4,7 @@ import RecommendedCard from "./RecommendedCard";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import TopDay from "./TopDay";
 import TopWeek from "./TopWeek";
+import LoadingDots from "@/icons/LoadingDots";
 
 interface Movie {
   id: number;
@@ -21,6 +22,7 @@ interface Movie {
 export default function Recommended() {
   const [selectedPeriod, setSelectedPeriod] = useState<string>("a");
   const [movies, setMovies] = useState<Movie[]>([]); 
+  const [loading, setLoading] = useState(true);
   const apiKey = import.meta.env.VITE_REACT_APP_MOVIE_API_TOKEN;
 
   useEffect(() => {
@@ -49,6 +51,8 @@ export default function Recommended() {
 
     fetchMovies();
   }, [selectedPeriod]);
+
+  
 
   return (
     <div className="h-fit w-full bg-[#181818]">

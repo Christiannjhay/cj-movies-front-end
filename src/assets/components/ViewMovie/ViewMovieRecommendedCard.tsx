@@ -40,12 +40,13 @@ export default function ViewMovieRecommendedCard() {
         });
 
         if (!recommendationsResponse.ok) {
-          throw new Error(`HTTP error! Status: ${recommendationsResponse.status}`);
+          throw new Error(
+            `HTTP error! Status: ${recommendationsResponse.status}`
+          );
         }
 
         const recommendationsData = await recommendationsResponse.json();
 
-       
         const detailedRecommendations = await Promise.all(
           recommendationsData.results.map(async (movie: { id: number }) => {
             const movieDetailsUrl = `https://api.themoviedb.org/3/movie/${movie.id}?language=en-US`;
@@ -58,7 +59,9 @@ export default function ViewMovieRecommendedCard() {
             });
 
             if (!movieDetailsResponse.ok) {
-              throw new Error(`HTTP error! Status: ${movieDetailsResponse.status}`);
+              throw new Error(
+                `HTTP error! Status: ${movieDetailsResponse.status}`
+              );
             }
 
             return movieDetailsResponse.json();
@@ -91,7 +94,11 @@ export default function ViewMovieRecommendedCard() {
   };
 
   if (loading) {
-    return <p className="text-center text-gray-500"><LoadingDots/></p>;
+    return (
+      <div className="flex flex-col justify-start items-center h-screen bg-[#181818] pt-20">
+        <LoadingDots />
+      </div>
+    );
   }
 
   return (
