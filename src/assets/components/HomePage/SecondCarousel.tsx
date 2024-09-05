@@ -4,18 +4,6 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent } from "@/components/ui/card";
 
-interface Movie {
-  id: number;
-  title: string;
-  poster_path: string;
-  backdrop_path: string;
-  overview: string;
-  release_date: string;
-  vote_average: number;
-  duration: number;
-  genres: { id: number; name: string }[];
-}
-
 interface TopMovies {
   id: number;
   title: string;
