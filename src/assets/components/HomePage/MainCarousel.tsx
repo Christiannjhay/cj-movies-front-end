@@ -105,7 +105,7 @@ export default function MainCarousel() {
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-black/50"></div>
-                  <div className="absolute bottom-[2%] sm:bottom-[5%] md:bottom-[10%] lg:bottom-[20%] xl:bottom-[25%] 2xl:bottom-[39%] max-md:p-4 sm:left-4 left-4 md:left-24 text-white w-[70%]">
+                  <div className="absolute bottom-[2%] sm:bottom-[5%] md:bottom-[10%] lg:bottom-[20%] xl:bottom-[25%] 2xl:bottom-[39%] max-md:p-4 sm:left-4 left-4 md:left-24 text-white w-[80%]">
                     <h1 className="text-white font-extrabold text-sm md:text-3xl lg:text-4xl">
                       {movie.title}
                     </h1>
