@@ -78,11 +78,11 @@ export default function SecondCarousel() {
   }, []);
   
   return (
-    <div className="relative ">
-      <Carousel className="w-11/12 min-h-fit lg:h-fit ">
+    <div className="relative max-w-[1800px] mx-auto">
+      <Carousel className="w-11/12 min-h-fit lg:h-fit rounded-[20px]">
         <CarouselContent>
           {isLoading
-            ? // Skeleton Loading State
+            ? 
               Array.from({ length: 4 }).map((_, index) => (
                 <CarouselItem
                   key={index}

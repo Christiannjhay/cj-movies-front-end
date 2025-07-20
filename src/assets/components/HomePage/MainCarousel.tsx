@@ -101,11 +101,11 @@ export default function MainCarousel() {
                   <img
                     src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
                     alt={movie.title}
-                    className="w-full h-[300px] 2xl:h-[1080px] xl:h-[700px] lg:h-[600px] md:h-[500px] sm:h-[400px]"
+                    className="w-full object-cover !max-h-[900px] h-[300px] 2xl:h-[1080px] xl:h-[700px] lg:h-[600px] md:h-[500px] sm:h-[400px]"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-black/50"></div>
-                  <div className="absolute bottom-[2%] sm:bottom-[5%] md:bottom-[10%] lg:bottom-[20%] xl:bottom-[25%] 2xl:bottom-[39%] sm:left-4 left-4 md:left-24 text-white w-[70%]">
+                  <div className="absolute bottom-[2%] sm:bottom-[5%] md:bottom-[10%] lg:bottom-[20%] xl:bottom-[25%] 2xl:bottom-[39%] max-md:p-4 sm:left-4 left-4 md:left-24 text-white w-[70%]">
                     <h1 className="text-white font-extrabold text-sm md:text-3xl lg:text-4xl">
                       {movie.title}
                     </h1>
@@ -141,7 +141,7 @@ export default function MainCarousel() {
                       </div>
                     </div>
 
-                    <h2 className="lg:text-lg xl:text-xl text-white font-light mt-2 line-clamp-3 hidden md:block">
+                    <h2 className="lg:text-lg xl:text-xl max-w-[1300px] text-white font-light mt-2 line-clamp-3 hidden md:block">
                       {movie.overview}
                     </h2>
                     <Button

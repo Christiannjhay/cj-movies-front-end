@@ -55,7 +55,7 @@ export default function Recommended() {
   
 
   return (
-    <div className="h-fit w-full bg-[#181818]">
+    <div className="h-fit w-full bg-[#181818] pb-8 max-w-[1900px] mx-auto">
       <div className="flex flex-col justify-center items-center">
         <div className="mb-6 text-center">
           <h1 className="text-[#6b6767] mt-10 text-sm px-6 md:text-base">
