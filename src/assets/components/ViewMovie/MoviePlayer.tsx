@@ -70,7 +70,7 @@ const MoviePlayer: React.FC<MoviePlayerProps> = ({ setMovieDetails }) => {
           className="mt-6 h-[90%] w-11/12"
           width="70%"
           height="700"
-          src={`https://vidsrc.net/embed/${id}`}
+          src={`https://vidsrc.to/embed/${id}`}
           allow="autoplay; fullscreen; picture-in-picture"
           allowFullScreen
           title="Movie"
