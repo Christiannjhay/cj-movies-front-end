@@ -18,54 +18,63 @@ export default function SecondCarousel() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      const apiKey = import.meta.env.VITE_REACT_APP_MOVIE_API_TOKEN;
-      
-      if (!apiKey) {
-        console.error('❌ API key is missing!');
-        setIsLoading(false);
-        return;
-      }
-  
+    
+    const fetchTopRatedMovies = async () => {
       try {
-        // Fetch popular movies
-        const popularMoviesUrl = `https://api.themoviedb.org/3/movie/popular?language=en-US&page=1&api_key=${apiKey}`;
-        const popularResponse = await fetch(popularMoviesUrl);
-        
-        if (!popularResponse.ok) {
-          throw new Error(`Failed to fetch popular movies: ${popularResponse.status}`);
-        }
-        
-        const popularData = await popularResponse.json();
-        const popularMovies: Movie[] = popularData.results;
-  
-        // Fetch details for each movie
-        const detailedMoviesPromises = popularMovies.map(async (movie) => {
-          const movieDetailsUrl = `https://api.themoviedb.org/3/movie/${movie.id}?append_to_response=credits&language=en-US&api_key=${apiKey}`;
-          const detailsResponse = await fetch(movieDetailsUrl);
-          
-          if (!detailsResponse.ok) {
-            console.warn(`Failed to fetch details for movie ${movie.id}`);
-            return movie; // Return movie without details
-          }
-          
-          const movieDetailsData = await detailsResponse.json();
-          movie.duration = movieDetailsData.runtime;
-          movie.genres = movieDetailsData.genres?.slice(0, 3) || [];
-          
-          return movie;
+        const apiKey = import.meta.env.VITE_REACT_APP_MOVIE_API_TOKEN;
+        const url = `https://api.themoviedb.org/3/movie/popular?language=en-US&page=2`;
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${apiKey}`,
+          },
         });
-  
-        const detailedMovies = await Promise.all(detailedMoviesPromises);
-        setMovies(detailedMovies);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch top rated movies");
+        }
+
+        const data = await response.json();
+        const topRatedMovies: TopMovies[] = data.results.map(
+          async (movie: any) => {
+            const movieDetailsUrl = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${apiKey}&language=en-US`;
+            const detailsResponse = await fetch(movieDetailsUrl, {
+              method: "GET",
+              headers: {
+                accept: "application/json",
+                Authorization: `Bearer ${apiKey}`,
+              },
+            });
+
+            if (!detailsResponse.ok) {
+              throw new Error(`Failed to fetch details for movie ${movie.id}`);
+            }
+
+            const detailsData = await detailsResponse.json();
+            const genres = detailsData.genres.slice(0, 3);
+
+            return {
+              id: movie.id,
+              title: movie.title,
+              poster_path: movie.poster_path,
+              backdrop_path: movie.backdrop_path,
+              genres: genres,
+            };
+          }
+        );
+
+        const resolvedTopRatedMovies = await Promise.all(topRatedMovies);
+        setTopRatedMovies(resolvedTopRatedMovies);
+        setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching movies:", error);
-      } finally {
+        console.error("Error fetching top rated movies:", error);
         setIsLoading(false);
       }
     };
-  
-    fetchMovies();
+
+    
+    fetchTopRatedMovies();
   }, []);
   
   return (
