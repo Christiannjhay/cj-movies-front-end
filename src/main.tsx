@@ -13,9 +13,9 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <AuthProvider>
+     
         <HomePage />
-      </AuthProvider>
+     
     ),
   },
   {
@@ -52,6 +52,7 @@ const router = createBrowserRouter([
     ),
   },
 ]);
+console.log('API Key loaded:', import.meta.env.VITE_REACT_APP_MOVIE_API_TOKEN);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

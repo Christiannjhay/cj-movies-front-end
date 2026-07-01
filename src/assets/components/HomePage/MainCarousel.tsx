@@ -42,6 +42,7 @@ export default function MainCarousel() {
             accept: "application/json",
             Authorization: `Bearer ${apiKey}`,
           },
+          mode: 'cors',
         });
         const data = await response.json();
         const popularMovies: Movie[] = data.results;
